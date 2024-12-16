@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       title: 'Hello World App',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Column(
+          body: Container(
+        child: Column(
           children: [
             Container(
               height: 150.0,
@@ -29,12 +30,20 @@ class MyApp extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Dev \nzerubabel",
+                        "Zemenu \nSolution",
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 20.0, // Adjust size as needed
                           fontFamily: 'YujiMai',
                           fontWeight: FontWeight.bold,
+                          foreground: Paint()
+                            ..shader = LinearGradient(
+                              colors: <Color>[
+                                Colors.purple.shade400,
+                                Colors.pink.shade400,
+                              ],
+                            ).createShader(
+                                Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
                         ),
                       ),
                       SizedBox(height: 10),
@@ -59,7 +68,7 @@ class MyApp extends StatelessWidget {
                   // Profile Image
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage('images/image.jpg'),
+                    backgroundImage: AssetImage('images/solution.jpg'),
                   ),
                 ],
               ),
@@ -67,7 +76,8 @@ class MyApp extends StatelessWidget {
             // Qualifications Section
             Container(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: const Color.fromARGB(
+                    255, 1, 27, 48), // Purple color with 30% opacity
                 borderRadius: BorderRadius.circular(10.0),
               ),
               margin: EdgeInsets.symmetric(horizontal: 20.0),
@@ -93,33 +103,56 @@ class MyApp extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            Icon(Icons.design_services, color: Colors.white),
+                            Icon(Icons.design_services, color: Colors.amber),
                             Text('Graphic Designer',
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),
                         Column(
                           children: [
-                            Icon(Icons.code, color: Colors.white),
+                            Icon(Icons.code, color: Colors.amber),
                             Text('Web Developer',
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),
                         Column(
                           children: [
-                            Icon(Icons.language, color: Colors.white),
+                            Icon(Icons.language, color: Colors.amber),
                             Text('SEO Specialist',
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),
                         Column(
                           children: [
-                            Icon(Icons.article, color: Colors.white),
+                            Icon(Icons.article, color: Colors.amber),
                             Text('Content Writer',
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),
                       ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Members",
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 15, left: 5),
+                      height: 1,
+                      color: Colors.black,
                     ),
                   ),
                 ],
@@ -138,20 +171,40 @@ class MyApp extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return Portifolio();
+                            return Portfolio(
+                                profileId: profile.id); // Pass the profile ID
                           },
                         ),
                       );
                     },
-                    child: Card(
+                    child: Container(
                       margin: EdgeInsets.symmetric(vertical: 8.0),
                       child: ListTile(
                         leading: CircleAvatar(
                           backgroundImage: profile.assetImage,
                         ),
-                        title: Text(profile.title),
-                        subtitle: Text(profile.subtitle),
-                        trailing: Icon(profile.trailingIcon),
+                        title: Text(
+                          profile.title,
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 12, 12, 12),
+                            fontSize: 18.0, // Adjust the font size as needed
+                            fontWeight:
+                                FontWeight.bold, // Optional: make the text bold
+                          ),
+                        ),
+                        subtitle: Text(
+                          profile.subtitle,
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 181, 180, 180),
+                            fontSize: 18.0, // Adjust the font size as needed
+                            fontWeight:
+                                FontWeight.bold, // Optional: make the text bold
+                          ),
+                        ),
+                        trailing: Icon(
+                          profile.trailingIcon,
+                          color: Colors.amber,
+                        ),
                       ),
                     ),
                   );
@@ -160,7 +213,7 @@ class MyApp extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }

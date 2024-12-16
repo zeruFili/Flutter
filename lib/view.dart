@@ -1,117 +1,136 @@
 import 'package:flutter/material.dart';
+import 'members.dart'; // Ensure this is the correct path to your profiles.
 
-class Portifolio extends StatelessWidget {
+class Portfolio extends StatelessWidget {
+  final String profileId; // Parameter for profile ID
+
+  Portfolio({required this.profileId}); // Constructor to accept profileId
+
   @override
   Widget build(BuildContext context) {
+    // Find the profile based on the passed profileId
+    final profile = profiles.firstWhere(
+      (p) => p.id == profileId,
+      orElse: () => Profile(
+        id: '0', // Default ID if not found
+        title: 'Unknown Profile',
+        subtitle: '',
+        trailingIcon: Icons.error,
+        assetImage: AssetImage('images/default.jpg'), // Fallback image
+        description: 'No description available.',
+        achievements: [],
+      ),
+    );
+
     return Scaffold(
-      body: Container(
-        margin: EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              height: 300.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                image: DecorationImage(
-                  image: AssetImage(
-                      'images/image.jpg'), // Adjust image path as needed
-                  fit: BoxFit.cover, // Adjust the image fit
+        body: SingleChildScrollView(
+      child: Container(
+        child: Padding(
+          padding: EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max, // Changed to max
+            children: [
+              // Image Container
+              Container(
+                height: 300.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  image: DecorationImage(
+                    image: profile.assetImage,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(15.0),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 1, 27, 48),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Achievements',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Here are some of my notable achievements in various fields. '
-                    'I am inspired by challenges and motivated by success. '
-                    'Every experience is a lesson, and I am eager to learn and grow. '
-                    'My journey is fueled by passion and a commitment to excellence.',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 16,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Icon(Icons.workspace_premium,
-                              color: Colors.amber, size: 30),
-                          SizedBox(height: 5),
-                          Text('Achievement 1',
-                              style: TextStyle(color: Colors.white70)),
-                        ],
+              SizedBox(height: 20),
+              // Achievements Container
+              Container(
+                padding: EdgeInsets.all(15.0),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 1, 27, 48),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${profile.title} Achievements', // Dynamic title
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Column(
-                        children: [
-                          Icon(Icons.school, color: Colors.amber, size: 30),
-                          SizedBox(height: 5),
-                          Text('Achievement 2',
-                              style: TextStyle(color: Colors.white70)),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Icon(Icons.emoji_events,
-                              color: Colors.amber, size: 30),
-                          SizedBox(height: 5),
-                          Text('Achievement 3',
-                              style: TextStyle(color: Colors.white70)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Contact Me',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Icon(Icons.phone, color: Colors.blue, size: 20),
-                      Icon(Icons.email, color: Colors.blue, size: 20),
-                      Icon(Icons.facebook, color: Colors.blue, size: 20),
-                      // Icon(Icons.twitter, color: Colors.blue, size: 30),
-                      // Icon(Icons.linkedin, color: Colors.blue, size: 30),
-                    ],
-                  ),
-                ],
+                    SizedBox(height: 10),
+                    Text(
+                      profile.description,
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    // Display achievements
+                    // Display achievements in a horizontal row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: profile.achievements.map<Widget>((achievement) {
+                        return AchievementItem(
+                          icon: achievement['icon'],
+                          title: achievement['title'],
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              // Contact Me Section
+              Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Contact Me',
+                      style: TextStyle(
+                        color: const Color.fromARGB(255, 1, 27, 48),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Icon(Icons.phone, color: Colors.amber, size: 20),
+                        Icon(Icons.email, color: Colors.amber, size: 20),
+                        Icon(Icons.facebook, color: Colors.amber, size: 20),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+    ));
+  }
+}
+
+class AchievementItem extends StatelessWidget {
+  final IconData icon;
+  final String title;
+
+  const AchievementItem({Key? key, required this.icon, required this.title})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(icon, color: Colors.amber, size: 30),
+        SizedBox(height: 5),
+        Text(title, style: TextStyle(color: Colors.white70)),
+      ],
     );
   }
 }
