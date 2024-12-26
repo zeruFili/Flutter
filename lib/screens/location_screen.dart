@@ -32,7 +32,7 @@ class _LocationScreenState extends State<LocationScreen> {
         weathericon = 'Error';
         Tempmessage = 'unable to get weather data';
         cityName = '';
-        print(weatherdata);
+        // print(weatherdata);
       }
       double temp = weatherdata['main']['temp'];
       temperature = temp.toInt();
@@ -41,7 +41,7 @@ class _LocationScreenState extends State<LocationScreen> {
       Tempmessage = weather.getMessage(temperature);
       cityName = weatherdata['name'];
 
-      print(weatherdata);
+      // print(weatherdata);
     });
   }
 
@@ -82,12 +82,13 @@ class _LocationScreenState extends State<LocationScreen> {
                           MaterialPageRoute(builder: (context) {
                         return CityScreen();
                       }));
-                      print(cityname);
+                      // print(cityname);
 
                       if (cityname != null) {
                         var weatherdata =
-                            await weather.getCityWeather(cityName);
+                            await weather.getCityWeather(cityname);
                         updateUI(weatherdata);
+                        // print(cityname);
                       }
                     },
                     child: Icon(

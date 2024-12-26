@@ -6,20 +6,23 @@ const apikey = '9274b274874c94a9b10f3a288c7d8e96';
 class WeatherModel {
   Future<dynamic> getCityWeather(String cityName) async {
     try {
-      NetworkHelper networkHelper = NetworkHelper(
-          'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$apikey&units=metric');
+      // print('City Name: $cityName'); // Debugging output
+      String url =
+          'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$apikey&units=metric';
+      print('Requesting URL: $url'); // Debugging output
 
+      NetworkHelper networkHelper = NetworkHelper(url);
       var weatherData = await networkHelper.getData();
 
       if (weatherData == null) {
         throw Exception('Failed to load weather data');
       }
 
+      // print('Weather Data: $weatherData'); // Debugging output
       return weatherData;
     } catch (e) {
-      // Handle any errors that occur during the network request
-      print('Error: $e');
-      return null; // or you can throw the error to be handled by the caller
+      print('Error: $e'); // Error handling
+      return null; // or throw the error
     }
   }
 
